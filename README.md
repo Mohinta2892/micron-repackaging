@@ -5,6 +5,7 @@ Create a conda env yourself- call it micron. That's because the conda env creati
 Run pip install -r requirements.txt
 Might want to forego the -e for the git-based software because pip will install them as editable in your working directory. Later causes problems in importing them.
 
+# Error encounters
 If funlib.learn.tensorflow does not install due to:
         3 | #include <boost/pending/disjoint_sets.hpp>
           |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
