@@ -1,6 +1,6 @@
 numpy==1.20.0
 zarr==2.12.0
-numpy=1.85.5
+numpy==1.85.5
 scipy
 cython==0.29.10
 pymongo
