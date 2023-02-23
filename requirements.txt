@@ -21,4 +21,4 @@ protobuf==3.20.0
 -e git+https://github.com/funkelab/funlib.math.git@master#egg=funlib.math
 -e git+https://github.com/funkelab/funlib.run.git@master#egg=funlib.run
 -e git+https://github.com/funkey/gunpowder.git@master#egg=gunpowder
--e git+https://github.com/funkelab/lsd.git
+-e git+https://github.com/funkelab/lsd.git#egg=lsds
