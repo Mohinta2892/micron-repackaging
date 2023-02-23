@@ -3,6 +3,7 @@
 Create a conda env yourself- call it micron. That's because the conda env creation from .yml may get stuck.
 
 Run pip install -r requirements.txt
+
 Might want to forego the -e for the git-based software because pip will install them as editable in your working directory. Later causes problems in importing them.
 
 # Error encounters
