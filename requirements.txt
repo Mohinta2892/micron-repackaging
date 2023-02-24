@@ -11,7 +11,6 @@ pytest
 pytest-cov
 mlpack3
 flake8
-tensorflow==1.15.4
 protobuf==3.20.0
 -e git+https://github.com/funkey/numcodecs.git@f950047d7b666723f81006cbdfd82c0e6705c39c#egg=numcodecs
 -e git+https://github.com/funkey/zarr.git@9ddf849a6e3329f5ff361ebf6156712926e2fdfe#egg=zarr
