@@ -1,7 +1,7 @@
 numpy==1.18.5
 zarr
 scipy
-Cython==0.29.10
+cython==0.29.10
 pymongo
 click
 configargparse
