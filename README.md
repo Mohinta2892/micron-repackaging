@@ -10,7 +10,8 @@ This docker uses tf==1.15.5 and Python==3.8.10. Runs on gpu.
 
 The environment for Micron was built on top of the nvidia tf1 docker: 
 ```
- nvcr.io/nvidia/tensorflow:22.09-tf1-py3 ```
+ nvcr.io/nvidia/tensorflow:22.09-tf1-py3
+ ```
 
 
 WIP:
