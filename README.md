@@ -19,6 +19,7 @@ nvidia-docker run -it -v /local/mount-dir/micron-docker:/home nvcr.io/nvidia/ten
 
 WIP:
 - [X] Training the UNET to detect the microtubules
+- [ ] Replace MongoDB with PostgreSQL 
 - [ ] Prediction
 - [ ] Solving the ILP
 
