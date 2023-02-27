@@ -9,7 +9,7 @@ import json
 import tensorflow as tf
 import numpy as np
 from micron import read_train_config
-
+from tqdm import tqdm # helps track training progress
 
 def train_until(max_iteration,
                 training_container,
@@ -157,7 +157,7 @@ def train_until(max_iteration,
 
     print("Starting training...")
     with build(train_pipeline) as b:
-        for i in range(max_iteration - trained_until):
+        for i in tqdm(range(max_iteration - trained_until)):
             b.request_batch(request)
     print("Training finished")
 
