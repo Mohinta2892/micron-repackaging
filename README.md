@@ -34,5 +34,5 @@ Upcoming:
 - [ ] Dockerfile to build docker locally
 - [ ] Futher notes
 
-Notes:
-- [ ] Singularity does not work, have not tried to make it work
+**Notes**:
+Singularity does not work, have not tried to make it work
