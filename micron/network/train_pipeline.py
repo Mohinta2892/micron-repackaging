@@ -2,7 +2,7 @@ from __future__ import print_function
 import sys
 from gunpowder import *
 from gunpowder.tensorflow import *
-from lsd.gp import AddLocalShapeDescriptor
+from lsd.train.gp import AddLocalShapeDescriptor
 import os
 import math
 import json
