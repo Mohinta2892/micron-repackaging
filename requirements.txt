@@ -1,5 +1,5 @@
 numpy==1.18.5
-zarr==2.12.0
+zarr
 scipy
 Cython==0.29.10
 pymongo
