@@ -1,5 +1,5 @@
 # micron-repackaging
-Nils Eckstein's micron repacked in a docker env to ensure it runs locally
+Nils Eckstein's micron repackaged in a docker env to ensure it runs locally
 
 Path to docker image in docker hub:
 ```
