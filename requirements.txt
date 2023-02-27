@@ -2,6 +2,7 @@ numpy==1.18.5
 zarr
 scipy
 cython
+Cython
 pymongo
 click
 configargparse
