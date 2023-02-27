@@ -33,3 +33,6 @@ Upcoming:
 - [ ] Fallback to custom gunpowder which supports passing a checkpoint storage folder and allows cuda device to be passed as input.
 - [ ] Dockerfile to build docker locally
 - [ ] Futher notes
+
+Notes:
+- [ ] Singularity does not work, have not tried to make it work
