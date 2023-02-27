@@ -2,10 +2,16 @@
 Nils Eckstein's micron refactored to ensure it runs locally
 
 Path to docker image in docker hub:
-**docker pull mohinta2892/microtubule_tracking_eckstein
+```
+docker pull mohinta2892/microtubule_tracking_eckstein
+```
+
 This docker uses tf==1.15.5 and Python==3.8.10. Runs on gpu. 
 
-The environment for Micron was built on top of the nvidia tf1 docker: nvcr.io/nvidia/tensorflow:22.09-tf1-py3.
+The environment for Micron was built on top of the nvidia tf1 docker: 
+```
+ nvcr.io/nvidia/tensorflow:22.09-tf1-py3 ```
+
 
 WIP:
 - [X] Training the UNET to detect the microtubules
