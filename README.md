@@ -14,7 +14,7 @@ The environment for Micron was built on top of the nvidia tf1 docker:
 ```
 Remember all packages in this docker were explicitly as root after running (because the build through dockerfile is unresolved):
 ```
-nvidia-docker run -it -v /media/samia/DATA/mounts/micron-docker:/home nvcr.io/nvidia/tensorflow:22.09-tf1-py3
+nvidia-docker run -it -v /local/mount-dir/micron-docker:/home nvcr.io/nvidia/tensorflow:22.09-tf1-py3
 ```
 
 WIP:
