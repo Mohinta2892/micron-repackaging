@@ -66,6 +66,9 @@ from lsd.gp import AddLocalShapeDescriptor
 to
 from lsd.train.gp import AddLocalShapeDescriptor
 
+#### Prediction errors:
+predict_blockwise.py gets stuck [error file show predicting in batch X], however the gpu remains occupied without actually doing anything.
+predict_blockwise.py spawns the models and kills it instantly perhaps due to OOM (requires minimum 22GB).
 
 
 # Library for automatic tracking of microtubules in large scale EM datasets
