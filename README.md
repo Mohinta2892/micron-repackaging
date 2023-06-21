@@ -24,13 +24,14 @@ Torch docker path:
 
 WIP:
 - [X] Training the UNET to detect the microtubules
-- [ ] Replace MongoDB with PostgreSQL 
 - [X] Prediction
 - [X] Graph generation
 - [ ] Solving the ILP
 
 Changes made to ensure that the network can be trained:
-- [ ] Changed Lsds import statement in train_pipeline
+- [X] Changed Lsds import statement in train_pipeline
+- [ ] Add a solver package for the ILP to the docker, preferably Cplex since Gurobi's WSL licence has only 90days validity and non-shareable clause?
+- [ ] Replace MongoDB with PostgreSQL 
 - [ ] More in notes (will weed and add here)
 
 Feature updates:
