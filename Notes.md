@@ -55,9 +55,10 @@ If ImportError: cannot import name '_validate_lengths' from 'numpy.lib.arraypad'
 Downgrade skimage with : pip install -U scikit-image
 It is because a numpy dependency that was first implemented in numpy1.15 from skimage and then deprecated in 1.16 potentially.
 
-
 In worker_config.ini, pass (otherwise it will keep looking for a singularity image):
 singularity_container = None
+
+Protobuf==3.20.2 goes with TensorboardX==2.5 and tensorflow==1.15.5+nv22.9
 
 ****Very important***
 Install lsds. Training is dependent on it but it was not added in the requirements.
