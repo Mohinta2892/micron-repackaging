@@ -17,10 +17,16 @@ Remember all packages in this docker were explicitly as root after running (beca
 nvidia-docker run -it -v /local/mount-dir/micron-docker:/home nvcr.io/nvidia/tensorflow:22.09-tf1-py3
 ```
 
+Torch docker path:
+```
+/media/samia/DATA/mounts/micron-docker/dockers/micron_torch_tf_20Jun.tar
+```
+
 WIP:
 - [X] Training the UNET to detect the microtubules
 - [ ] Replace MongoDB with PostgreSQL 
-- [ ] Prediction
+- [X] Prediction
+- [X] Graph generation
 - [ ] Solving the ILP
 
 Changes made to ensure that the network can be trained:
@@ -28,8 +34,10 @@ Changes made to ensure that the network can be trained:
 - [ ] More in notes (will weed and add here)
 
 Feature updates:
-- [ ] Added tqdm to track training progress.
-
+- [X] Added tqdm to track training progress.
+- [X] Added a torch script to train micron
+- [ ] Added a torch script to predict with scan nodes - not yet working
+      
 Upcoming:
 - [ ] Fallback to custom gunpowder which supports passing a checkpoint storage folder and allows cuda device to be passed as input.
 - [ ] Dockerfile to build docker locally
