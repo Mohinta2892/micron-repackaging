@@ -62,11 +62,12 @@ def set_up_environment(base_dir,
     db_host = predict_cfg_dict["db_host"]
 
     selected_attr = "selected_{}".format(solve_number)
-    solved_attr = "solved_{}".format(solve_number)
+    solved_attr = "solved_s{}".format(solve_number)
     edge_collection = "edges_g{}".format(graph_number)
     node_collection = "nodes"
 
     solved_before = attr_exists(db_name, db_host, edge_collection, solved_attr)
+
     if not solved_before:
         raise ValueError("Graph not solved, run solve before evaluation.")
 
