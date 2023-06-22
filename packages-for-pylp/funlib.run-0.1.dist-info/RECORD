@@ -1,0 +1,13 @@
+funlib.run-0.1.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+funlib.run-0.1.dist-info/METADATA,sha256=BL6av6XY-a_EcyzyuOAbP8K0TWTF5svIaFMkTlQPMxw,242
+funlib.run-0.1.dist-info/RECORD,,
+funlib.run-0.1.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+funlib.run-0.1.dist-info/WHEEL,sha256=G16H4A3IeoQmnOrYV4ueZGKSjhipXx8zc8nu9FGlvMA,92
+funlib.run-0.1.dist-info/direct_url.json,sha256=SheozqdjZZncS4PnEJLaTkc5_yIu0igmOMJyCTfO6Rc,170
+funlib.run-0.1.dist-info/top_level.txt,sha256=c9hZwuCurppc2wrP33IVC2k2SE23XA-IDN88GYJ2Dxc,7
+funlib/run/__init__.py,sha256=HB__h3BLnKJ2GCo6SKQjqibUtuBfCIVtp99kvdnOq3I,104
+funlib/run/__pycache__/__init__.cpython-38.pyc,,
+funlib/run/__pycache__/run.cpython-38.pyc,,
+funlib/run/__pycache__/run_singularity.cpython-38.pyc,,
+funlib/run/run.py,sha256=XUr-UX7XTOy0Ql23cqalBC54LdhzRi7OWgUJgyuA-jw,7349
+funlib/run/run_singularity.py,sha256=bVRAI2ruLQkgZnR2ob7kdRzqTXjwqv9FKmIu9QoyZFw,2328

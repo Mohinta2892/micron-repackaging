@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: funlib.run
+Version: 0.1
+Summary: Python wrapper for bsub
+Home-page: https://github.com/funkelab/funlib.run
+Author: Nils Eckstein
+Author-email: ecksteinn@janelia.hhmi.org
+License: MIT
+Requires-Dist: configargparse
+

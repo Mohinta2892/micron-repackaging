@@ -1,0 +1,26 @@
+Metadata-Version: 2.1
+Name: gunpowder
+Version: 1.2.2
+Summary: A library to facilitate machine learning on large, multi-dimensional images.
+Home-page: https://github.com/funkey/gunpowder
+Author: Jan Funke
+Author-email: jfunke@iri.upc.edu
+License: MIT
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: h5py
+Requires-Dist: scikit-image
+Requires-Dist: requests
+Requires-Dist: augment-nd
+Requires-Dist: tqdm
+Provides-Extra: full
+Requires-Dist: torch ; extra == 'full'
+Requires-Dist: tensorflow (<2.0) ; (python_version < "3.8") and extra == 'full'
+Requires-Dist: protobuf (==3.20.*) ; (python_version == "3.7") and extra == 'full'
+Provides-Extra: pytorch
+Requires-Dist: torch ; extra == 'pytorch'
+Provides-Extra: tensorflow
+Requires-Dist: tensorflow (<2.0) ; (python_version < "3.8") and extra == 'tensorflow'
+Requires-Dist: protobuf (==3.20.*) ; (python_version == "3.7") and extra == 'tensorflow'
+
