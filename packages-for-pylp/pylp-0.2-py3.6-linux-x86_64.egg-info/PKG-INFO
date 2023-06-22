@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: pylp
+Version: 0.2
+Summary: Python wrappers for popular MIP solvers.
+Home-page: https://github.com/funkey/pylp
+Author: Jan Funke
+Author-email: funkej@janelia.hhmi.org
+License: MIT
+Platform: UNKNOWN
+
+UNKNOWN
+
