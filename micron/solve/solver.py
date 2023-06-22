@@ -15,7 +15,7 @@ logger.addHandler(out_hdlr)
 logger.setLevel(logging.INFO)
 
 START_EDGE = (-1, -1, {})
-pylp.set_log_level(pylp.LogLevel.Debug)
+#pylp.set_log_level(pylp.LogLevel.Debug)
 
 class Solver(object):
     def __init__(self, graph, evidence_factor, comb_angle_factor, 
@@ -69,8 +69,10 @@ class Solver(object):
 
         logger.info("Setting objective...")
         start_time = time.time()
-        self.backend = pylp.create_linear_solver(pylp.Preference.Gurobi)
-        self.backend.initialize(self.n_triplets, pylp.VariableType.Binary)
+        # changed the backend instantiation line based on latest test-solvers in pylp
+        #NB: needs to find correct Gurobi license in the home directory, otherwise will throw Runtime error: No linear solver found, running this on the gurobi academic license 2390186, though gurobi version is 8.0.1
+        self.backend = pylp.LinearSolver(self.n_triplets, pylp.VariableType.Binary, {}, pylp.Preference.Gurobi) #pylp.create_linear_solver(pylp.Preference.Gurobi)
+        #self.backend.initialize(self.n_triplets, pylp.VariableType.Binary)
         self.backend.set_num_threads(1)
         self.objective = pylp.LinearObjective(self.n_triplets)
         self.constraints = pylp.LinearConstraints()
@@ -148,7 +150,9 @@ class Solver(object):
             self.backend.set_timeout(self.time_limit)
 
         solution, msg = self.backend.solve()
-        logger.info("SOLVED with status: " + msg)
+        #print("MSG:", msg)
+        # this was returned as a byte string, so decoding
+        logger.info("SOLVED with status: " + msg.decode('utf-8'))
 
         self.solution_to_graph(solution)
 
