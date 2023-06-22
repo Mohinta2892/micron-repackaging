@@ -1,0 +1,23 @@
+Metadata-Version: 2.1
+Name: funlib.math
+Version: 0.1
+Summary: some math functions
+Author-email: William Patton <pattonw@hhmi.org>, Jan Funke <funkej@hhmi.org>
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.7
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: numpy
+Provides-Extra: dev
+Requires-Dist: black ; extra == 'dev'
+Requires-Dist: pytest ; extra == 'dev'
+
+funlib.math
+===========
+
+.. image:: https://travis-ci.com/funkelab/funlib.math.svg?branch=master
+  :target: https://travis-ci.com/funkelab/funlib.math
+
+Currently contains only ``funlib.math.cantor_number``, a method to assign unique
+IDs to tuples of coordinates of arbitrary dimension.

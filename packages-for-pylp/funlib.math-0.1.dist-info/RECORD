@@ -1,0 +1,14 @@
+funlib.math-0.1.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+funlib.math-0.1.dist-info/LICENSE,sha256=mY-nQ_iNB5j0df-ldTA0i3Z_hmbttD9e2aVj3SlK7OE,1066
+funlib.math-0.1.dist-info/METADATA,sha256=ze7IjNEPo9Pk2mMdwy7Fzqh-qPFp7hX1-GNEwb6po8Y,707
+funlib.math-0.1.dist-info/RECORD,,
+funlib.math-0.1.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+funlib.math-0.1.dist-info/WHEEL,sha256=G16H4A3IeoQmnOrYV4ueZGKSjhipXx8zc8nu9FGlvMA,92
+funlib.math-0.1.dist-info/direct_url.json,sha256=9bgvIcvuayASo-d0fPFeU8vgYaJT1CQOFlFRmQyzpfA,171
+funlib.math-0.1.dist-info/top_level.txt,sha256=c9hZwuCurppc2wrP33IVC2k2SE23XA-IDN88GYJ2Dxc,7
+funlib/math/__init__.py,sha256=DQXlAr9qZlPcrVzR2jr8rzCtWH8UWa6opKJP-c3k4Xk,209
+funlib/math/__pycache__/__init__.cpython-38.pyc,,
+funlib/math/__pycache__/bitshift.cpython-38.pyc,,
+funlib/math/__pycache__/cantor.cpython-38.pyc,,
+funlib/math/bitshift.py,sha256=XOf1MAlvq7gk81kS92hWNzqfbfO2YIPkCvYCdUuvhw8,1454
+funlib/math/cantor.py,sha256=pUL5edob2IPGSDPq1F9mD0VsMdOQP_N2mviMbagadKY,2719
