@@ -1,0 +1,13 @@
+Metadata-Version: 2.1
+Name: daisy
+Version: 0.3
+Summary: Block-wise task dependencies for luigi.
+Home-page: https://github.com/funkelab/daisy
+Author: Jan Funke
+Author-email: funkej@janelia.hhmi.org
+License: MIT
+Requires-Dist: numpy
+Requires-Dist: tornado (<6,>=5)
+Requires-Dist: networkx
+Requires-Dist: pymongo
+
