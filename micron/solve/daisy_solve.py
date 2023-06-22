@@ -89,7 +89,7 @@ def start_worker(predict_config,
 
    
     worker_id = daisy.Context.from_env().worker_id
-
+    print("solve_setup_dir:", solve_setup_dir)
     log_out = os.path.join(solve_setup_dir, '{}_worker.out'.format(worker_id))
     log_err = os.path.join(solve_setup_dir, '{}_worker.err'.format(worker_id))
 
