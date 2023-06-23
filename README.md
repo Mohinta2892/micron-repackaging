@@ -24,9 +24,10 @@ Torch docker path:
 
 WIP:
 - [X] Training the UNET to detect the microtubules
-- [X] Prediction
+- [X] Prediction with blockwise daisy
 - [X] Graph generation
-- [ ] Solving the ILP
+- [X] Solving the ILP with gurobi and pylp
+- [ ] Evaluating the solved trajectories
 
 Changes made to ensure that the network can be trained:
 - [X] Changed Lsds import statement in train_pipeline
