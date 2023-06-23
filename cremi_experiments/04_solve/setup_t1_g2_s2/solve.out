@@ -1,0 +1,8 @@
+solve_config_dict {'evidence_factor': 12, 'comb_angle_factor': 14, 'start_edge_prior': 180, 'selection_cost': -80, 'context': (400, 400, 400), 'daisy_solve': '/media/samia/DATA/mounts/micron-docker/micron_torch/micron/solve/daisy_solve.py', 'solve_block': '/media/samia/DATA/mounts/micron-docker/micron_torch/micron/solve/solve_block.py', 'solve_number': 2, 'time_limit': 120, 'selected_attr': 'selected_2', 'solved_attr': 'solved_2'}
+2023-06-22 18:35:06,261 Solving in [-400:1600, -400:4400, -400:4400] (2000, 4800, 4800)
+solve_setup_dir: /media/samia/DATA/mounts/micron-docker/micron_torch/micron_solve_exp/cremi/04_solve/setup_t1_p2_g2_s2
+2023-06-22 18:35:06,774 Running block **locally**, no queue provided.
+2023-06-22 18:35:06,774 Running block in current environment, no singularity image provided.
+2023-06-22 18:35:30,821 Solve worker finished
+2023-06-22 18:35:30,827 Finished solving, parameters id is 2
+Solving took 24.567859649658203 seconds

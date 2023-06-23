@@ -1,0 +1,4 @@
+WARNING:__main__:Running block **locally**, no queue provided.
+WARNING:__main__:Running block in current environment, no singularity image provided.
+INFO:__main__:Solve worker finished
+INFO:__main__:Finished solving, parameters id is 2
