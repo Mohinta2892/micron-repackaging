@@ -23,7 +23,8 @@ Torch docker path:
 ```
 
 ## Training (copied from Nil's Github [repo](https://github.com/nilsec/micron))
-<details markdown=1><summary>##### 1. Training a network:</summary>
+<details markdown=1><summary>Training a network:</summary>
+ 
 ```
 cd micron/micron
 python prepare_training.py -d <base_dir> -e <experiment_name> -t <id_of_training_run>
