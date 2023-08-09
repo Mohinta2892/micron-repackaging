@@ -69,7 +69,7 @@ training checkpoints will be saved every 1000 iterations.
 
 
 
-##WIP:
+## WIP:
 - [X] Training the UNET to detect the microtubules
 - [X] Prediction with blockwise daisy
 - [X] Graph generation
