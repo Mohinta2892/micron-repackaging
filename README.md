@@ -22,7 +22,48 @@ Torch docker path:
 /media/samia/DATA/mounts/micron-docker/dockers/micron_torch_tf_20Jun.tar
 ```
 
-WIP:
+## Training (copied from Nil's Github [repo](https://github.com/nilsec/micron)
+##### 1. Training a network:
+
+```
+cd micron/micron
+python prepare_training.py -d <base_dir> -e <experiment_name> -t <id_of_training_run>
+```
+
+This will create a directory at 
+```
+<base_dir>/<experiment_name>/01_train/setup_t<id_of_training_run> 
+```
+with all the necessary 
+files to train a network that can detect microtubules in EM data.
+
+In order to train a network on your data you need to provide ground truth skeletons and the corresponding raw data.
+The paths to the data need to be specified in the provided ```train_config.ini```. Ground truth skeletons should be given
+as volumetric data where each skeleton is represented by a corresponding id in the ground truth volume. Raw 
+data and ground truth should have the same shape, background should be labeled as zero.
+
+Our training data traced on the 3 CREMI test cubes and raw tracings (Knossos skeletons)
+is available [here](https://github.com/nilsec/micron_data.git) and 
+can be used for microtubule prediction on FAFB. If you want to train on your own data this can be used as an example
+of how to format your data for training. 
+
+An example train_config.ini:
+```
+training_container = ~/micron_data/a+_master.h5, ~/micron_data/b+_master.h5, ~/micron_data/c+_master.h5
+raw_dset = raw
+gt_dset = tracing
+```
+Once the appropriate changes have been made to the train config, network training can be started
+via: 
+```
+python train.py <num_iterations>
+```
+which will train the network for num_iterations (e.g. 300000) iterations on the provided data and
+training checkpoints will be saved every 1000 iterations.
+
+
+
+##WIP:
 - [X] Training the UNET to detect the microtubules
 - [X] Prediction with blockwise daisy
 - [X] Graph generation
