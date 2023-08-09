@@ -30,7 +30,8 @@ def read_train_config(train_config):
     cfg_dict["training_container"] = tuple([v for v in config.get("Training", "training_container").split(", ")])
     cfg_dict["raw_dset"] = config.get("Training", "raw_dset")
     cfg_dict["gt_dset"] = config.get("Training", "gt_dset")
-
+    cfg_dict["ckpt_save_every"] = config.get("Training", "ckpt_save_every")
+    
     return cfg_dict
 
 def read_graph_config(graph_config):
