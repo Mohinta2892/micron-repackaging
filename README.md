@@ -22,7 +22,7 @@ Torch docker path:
 /media/samia/DATA/mounts/micron-docker/dockers/micron_torch_tf_20Jun.tar
 ```
 
-## Training (copied from Nil's Github [repo](https://github.com/nilsec/micron)
+## Training (copied from Nil's Github [repo](https://github.com/nilsec/micron))
 ##### 1. Training a network:
 
 ```
