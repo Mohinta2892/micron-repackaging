@@ -23,8 +23,7 @@ Torch docker path:
 ```
 
 ## Training (copied from Nil's Github [repo](https://github.com/nilsec/micron))
-##### 1. Training a network:
-
+<details markdown=1><summary>##### 1. Training a network:</summary>
 ```
 cd micron/micron
 python prepare_training.py -d <base_dir> -e <experiment_name> -t <id_of_training_run>
@@ -67,7 +66,7 @@ python train.py <num_iterations>
 which will train the network for num_iterations (e.g. 300000) iterations on the provided data and
 training checkpoints will be saved every 1000 iterations.
 
-
+</details>
 
 ## WIP:
 - [X] Training the UNET to detect the microtubules
