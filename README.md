@@ -37,6 +37,12 @@ This will create a directory at
 with all the necessary 
 files to train a network that can detect microtubules in EM data.
 
+##### An example in the docker env based on training on CREMI:
+```
+cd /home/micron/micron
+python prepare_training.py -d /home/test_experiments -e cremi -t 1
+```
+
 In order to train a network on your data you need to provide ground truth skeletons and the corresponding raw data.
 The paths to the data need to be specified in the provided ```train_config.ini```. Ground truth skeletons should be given
 as volumetric data where each skeleton is represented by a corresponding id in the ground truth volume. Raw 
