@@ -12,11 +12,13 @@ p.add('-d', '--base_dir', required=False,
 p.add('-e', required=True, help='name of the experiment, e.g. fafb')
 p.add('-t', required=True, help='train number/id for this particular run')
 p.add('-c', required=False, action='store_true', help='clean up - remove specified train setup')
+p.add('-cremiconfig', required=False, action='store_true', help='If you want to copy pre-saved cremi configs')
 
 def set_up_environment(base_dir,
                        experiment,
                        train_number,
-                       clean_up=False):
+                       clean_up=False,
+                       cremi_config=False):
     ''' Sets up the directory structure and config file for 
         training a network for microtubule prediction.
 
@@ -37,6 +39,10 @@ def set_up_environment(base_dir,
         clean_up (``bool``):
 
             If true removes the specified train directory
+            
+        cremi_config (``bool``):
+
+            Load presaved configs to train models on datasets
     '''
 
 
@@ -66,6 +72,7 @@ def set_up_environment(base_dir,
         copyfile(os.path.join(this_dir, "network/train_pipeline.py"), os.path.join(setup_dir, "train_pipeline.py"))
         copyfile(os.path.join(this_dir, "network/train.py"), os.path.join(setup_dir, "train.py"))
         
+
         train_config = create_train_config(training_container=["None", "None", "None"],
                                            raw_dset=None,
                                            gt_dset=None)
@@ -80,7 +87,11 @@ def set_up_environment(base_dir,
         with open(os.path.join(setup_dir, "worker_config.ini"), "w+") as f:
             worker_config.write(f)
 
-
+	# TODO- make it if else if to merge with the writing the configs above
+        if cremi_config:
+            print("copying existing cremi configs")
+            copyfile(os.path.join(this_dir, "configs/cremi/train_config.ini"), os.path.join(setup_dir, "train_config.ini"))
+            copyfile(os.path.join(this_dir, "configs/cremi/worker_config.ini"), os.path.join(setup_dir, "worker_config.ini"))
 
 def create_train_config(training_container,
                         raw_dset,
@@ -132,7 +143,9 @@ if __name__ == "__main__":
     experiment = options.e
     train_number = int(options.t)
     clean_up = bool(options.c)
+    cremi_config = bool(options.cremiconfig)
     set_up_environment(base_dir,
                        experiment,
                        train_number,
-                       clean_up)
+                       clean_up,
+                       cremi_config)
