@@ -75,7 +75,8 @@ def set_up_environment(base_dir,
 
         train_config = create_train_config(training_container=["None", "None", "None"],
                                            raw_dset=None,
-                                           gt_dset=None)
+                                           gt_dset=None,
+                                           ckpt_save_every=10000)
 
         worker_config = create_worker_config(mount_dirs=None,
                                              singularity=os.path.abspath("../singularity/micron.img"),
