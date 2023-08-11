@@ -9,6 +9,7 @@ import sys
 import pymongo
 from micron.gp import WriteCandidates
 
+
 def predict(
         train_setup_dir,
         iteration,
@@ -20,7 +21,6 @@ def predict(
         db_name,
         run_instruction,
         **kwargs):
-    
     with open('predict_net.json', 'r') as f:
         net_config = json.load(f)
 
@@ -30,8 +30,8 @@ def predict(
 
     # nm
     voxel_size = Coordinate(net_config['voxel_size'])
-    input_size = input_shape*voxel_size
-    output_size = output_shape*voxel_size
+    input_size = input_shape * voxel_size
+    output_size = output_shape * voxel_size
 
     raw = ArrayKey('RAW')
     soft_mask = ArrayKey('SOFT_MASK')
@@ -41,24 +41,38 @@ def predict(
     chunk_request.add(raw, input_size)
     chunk_request.add(soft_mask, output_size)
     chunk_request.add(reduced_maxima, output_size)
+    # added else if to be able to handle input hdfs as well
+    if in_container.endswith(('.hdf', '.h5', '.hdf5')):
+        pipeline = Hdf5Source(
+            in_container,
+            datasets={
+                raw: in_dataset
+            },
+            array_specs={
+                raw: ArraySpec(interpolatable=True),
+            }
+        )
+    elif in_container.endswith('.zarr'):
+        pipeline = ZarrSource(
+            in_container,
+            datasets={
+                raw: in_dataset
+            },
+            array_specs={
+                raw: ArraySpec(interpolatable=True),
+            }
+        )
+    else:
+        print(f"{in_container} is not supported. Has to be zarr or hdf, please!")
 
-    pipeline = ZarrSource(
-                in_container,
-                datasets = {
-                    raw: in_dataset
-                    },
-                array_specs = {
-                    raw: ArraySpec(interpolatable=True),
-                    }
-                )
     print("IN", in_container)
 
     pipeline += Pad(raw, None)
     pipeline += Normalize(raw)
-    pipeline += IntensityScaleShift(raw, 2,-1)
-    
+    pipeline += IntensityScaleShift(raw, 2, -1)
+
     pipeline += Predict(os.path.join(train_setup_dir,
-                                     'train_net_checkpoint_%d'%iteration),
+                                     'train_net_checkpoint_%d' % iteration),
                         inputs={
                             net_config['raw']: raw
                         },
@@ -67,15 +81,15 @@ def predict(
                             net_config['pred_reduced_maxima']: reduced_maxima
                         },
                         graph='predict_net.meta',
-			max_shared_memory=(2*1024*1024*1024),
+                        max_shared_memory=(2 * 1024 * 1024 * 1024),
                         )
     pipeline += IntensityScaleShift(soft_mask, 255, 0)
     print("OUT", out_container)
     pipeline += ZarrWrite(dataset_names={
-                                soft_mask: out_dataset
-                                 },
-                          output_filename=out_container
-                          )
+        soft_mask: out_dataset
+    },
+        output_filename=out_container
+    )
 
     pipeline += WriteCandidates(maxima=reduced_maxima,
                                 db_host=db_host,
@@ -84,18 +98,18 @@ def predict(
     pipeline += PrintProfilingStats(every=10)
 
     pipeline += DaisyRequestBlocks(
-                    chunk_request,
-                    roi_map={
-                        raw: 'read_roi',
-                        soft_mask: 'write_roi',
-                        reduced_maxima: 'write_roi'
-                        },
-                    num_workers=run_instruction['num_cache_workers'],
-                    block_done_callback=lambda b, s, d: block_done_callback(
-                        db_host,
-                        db_name,
-                        run_instruction,
-                        b, s, d))
+        chunk_request,
+        roi_map={
+            raw: 'read_roi',
+            soft_mask: 'write_roi',
+            reduced_maxima: 'write_roi'
+        },
+        num_workers=run_instruction['num_cache_workers'],
+        block_done_callback=lambda b, s, d: block_done_callback(
+            db_host,
+            db_name,
+            run_instruction,
+            b, s, d))
 
     print("Starting prediction...")
     with build(pipeline):
@@ -110,7 +124,6 @@ def block_done_callback(
         block,
         start,
         duration):
-
     print("Recording block-done for %s" % (block,))
 
     client = pymongo.MongoClient(db_host)
