@@ -69,6 +69,9 @@ from lsd.train.gp import AddLocalShapeDescriptor
 
 #### Prediction errors:
 predict_blockwise.py gets stuck [error file show predicting in batch X], however the gpu remains occupied without actually doing anything.
+**Potential solution** to make it fail is to add a timeout inside wait() calls such as `self.predict_input_data.wait(timeout=10)`
+Generally, it is the zarr.write that is failing downstream due to some mismatch in the output shape from what is expected.
+
 predict_blockwise.py spawns the models and kills it instantly perhaps due to OOM (requires minimum 22GB).
 
 
