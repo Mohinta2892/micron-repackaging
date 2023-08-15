@@ -1,4 +1,4 @@
-##Update 11/14 Aug 2023
+## Update 11/14 Aug 2023
 Steps:
 1. Updating gunpowder==1.2.2 to gunpowder==1.3.0
    Requires augment-nd>=0.1.3 because `deform_augment` has dependencies for 3D elastic deform on this.
@@ -34,7 +34,7 @@ Docker latest with daisy 1.0.0 and gunpowder 1.3.0
 `
 /media/samia/DATA/mounts/micron-docker/dockers/micron_tf1_2209_py38_14Aug_bumpdaisy.tar
 `
-##Update - 15 Aug 2023
+## Update - 15 Aug 2023
 Daisy now works with `from micron.gp import WriteCandidates` in `predict_block.py`.
 Modified **mknet.py** from prediction on `c+_master.h5` such that in input patchsize of the volume is not larger than its dimensions. If it is, daisy gets stuck during prediction.
 At this stage, the output zarr file only saves `reduced_maxima`, since this is what is coded to be saved in `predict_block.py`. Though two other datasets `soft_mask` and `derivatives` also get
@@ -42,10 +42,10 @@ created in the zarr file.
 MongoDB: A db should be created based on the values of experiment (-e), training number (-t), prediction number (-p) and iteration/checkpoint value (-i). Inside this db we should see a `blocks_predicted`
 collection being created after running predict.py 
 
-####Pending for training
+#### Pending for training
 Training runs, but the problem of passing `ckpt_save_every` paramater in `train_config.ini` is not being heeded by the code, potentially due to missing it from being read by the configparser.
 
-####Graph building from prediction
+#### Graph building from prediction
 1. Updated `build_graph.py` to have funlib.persistence dependencies for MongoDBProvider and `open_ds`. Also, modified `daisy.run_blockwise()` calls by creating `daisy.Task()` as required by v==1.0.0
 2. Added to enable import, otherwise fails with pip install
 `/usr/local/lib/python3.8/dist-packages/funlib/persistence/graphs/mongodb_graph_provider.py
