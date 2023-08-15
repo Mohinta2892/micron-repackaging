@@ -31,6 +31,9 @@ p.add('--singularity', required=False,
 p.add('--queue', required=False,
       help='cluster queue to submit jobs to')
 
+# this helps to bypass the relative path problem, and allows running of the script without
+# changing dir to micron/micron
+root_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), '.'))
 
 def set_up_environment(base_dir,
                        experiment,
@@ -75,8 +78,9 @@ def set_up_environment(base_dir,
         else:
             raise ValueError("Predict setup exists already, choose different predict number or clean up.")
 
-    copyfile("network/predict_block.py", os.path.join(predict_setup_dir, "predict_block.py"))
-    copyfile("network/predict.py", os.path.join(predict_setup_dir, "predict.py"))
+
+    copyfile(f"{root_dir}/network/predict_block.py", os.path.join(predict_setup_dir, "predict_block.py"))
+    copyfile(f"{root_dir}/network/predict.py", os.path.join(predict_setup_dir, "predict.py"))
     if copy_original:
         copyfile(os.path.abspath("./network/mknet.py"), os.path.join(predict_setup_dir, "mknet.py"))
     else:
@@ -107,7 +111,7 @@ def create_predict_config(base_dir,
     config = configparser.ConfigParser()
 
     config.add_section('Predict')
-    config.set('Predict', 'blockwise', str(os.path.abspath('./network/predict_blockwise.py')))
+    config.set('Predict', 'blockwise', str(os.path.abspath(f'{root_dir}/network/predict_blockwise.py')))
     config.set('Predict', 'base_dir', str(os.path.abspath(base_dir)))
     config.set('Predict', 'experiment', str(experiment))
     config.set('Predict', 'train_number', str(train_number))

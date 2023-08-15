@@ -96,7 +96,8 @@ def set_up_environment(base_dir,
 
 def create_train_config(training_container,
                         raw_dset,
-                        gt_dset):
+                        gt_dset,
+                        ckpt_save_every):
 
     config = configparser.ConfigParser()
 
@@ -108,6 +109,7 @@ def create_train_config(training_container,
     config.set('Training', 'training_container', container_str)
     config.set('Training', 'raw_dset', str(raw_dset))
     config.set('Training', 'gt_dset', str(gt_dset))
+    config.set('Training', 'ckpt_save_every', str(ckpt_save_every))
 
     return config
 

@@ -26,7 +26,7 @@ class WriteCandidates(gp.BatchFilter):
             self.client = pymongo.MongoClient(host=self.db_host)
             self.db = self.client[self.db_name]
             create_indices = 'nodes' not in self.db.list_collection_names()
-            print(create_indices)
+            print("create_indices", create_indices)
             self.candidates = self.db['nodes']
             if create_indices:
                 self.candidates.create_index(

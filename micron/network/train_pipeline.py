@@ -2,19 +2,20 @@ from __future__ import print_function
 import sys
 from gunpowder import *
 from gunpowder.tensorflow import *
-from lsd.train.gp import AddLocalShapeDescriptor
+from lsd.train.gp import AddLocalShapeDescriptor # edit - 9-08-23:Samia; was "from lsd.gp import AddLocalShapeDescriptor"
 import os
 import math
 import json
 import tensorflow as tf
 import numpy as np
 from micron import read_train_config
-from tqdm import tqdm # helps track training progress
+from tqdm import tqdm
 
 def train_until(max_iteration,
                 training_container,
                 raw_dset,
-                gt_dset):
+                gt_dset,
+                ckpt_save_every=10000):
 
     """
     max_iteration [int]: Number of training iterations
@@ -26,6 +27,8 @@ def train_until(max_iteration,
                              *raw* holding the raw image data and 
                              a dataset called *tracing* holding the microtubule
                              tracings.
+    ckpt_save_every [int]: saves checkpoints in `int` specified intervals
+    
     """
 
     if tf.train.latest_checkpoint('.'):
@@ -132,7 +135,7 @@ def train_until(max_iteration,
             gradients={},
             summary=config['summary'],
             log_dir='log',
-            save_every=10000) +
+            save_every=int(ckpt_save_every)) +
         IntensityScaleShift(raw, 0.5, 0.5) +
         Snapshot({
                 raw: 'raw',
@@ -165,5 +168,4 @@ if __name__ == "__main__":
     iteration = int(sys.argv[1])
     train_config = read_train_config("./train_config.ini")
     train_config["max_iteration"] = iteration
-
     train_until(**train_config)

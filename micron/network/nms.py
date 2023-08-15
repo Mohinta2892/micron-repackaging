@@ -21,7 +21,7 @@ def max_detection(soft_mask, window_size, threshold, double_suppression_size=3, 
         #soft_mask /= tf.reduce_max(soft_mask)
 
     max_pool = tf.nn.max_pool3d(soft_mask, window_size, window_size, padding="SAME", data_format=data_format)
-
+    print(max_pool.shape)
     conv_filter = np.ones([w_depth,w_height,w_width,1,1])
 
     upsampled = tf.nn.conv3d_transpose(

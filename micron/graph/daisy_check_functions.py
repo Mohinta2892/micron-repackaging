@@ -14,14 +14,17 @@ def check_function(db, block, step_name):
 
 def write_done(db, block, step_name):
     daisy_coll = db[get_daisy_collection_name(step_name)]
-    daisy_coll.insert_one({'_id': block.block_id})
+    # blocl_id comes out as ({task_id}, int), pymongo cannot set a tuple to _id, hence we extract only the int
+    #daisy_coll.insert_one({'_id': block.block_id}) # prev daisy == 0.3.0
+    daisy_coll.insert_one({'_id': block.block_id[1]})
+
 
 def attr_exists(db_name, db_host, collection, attr):
     client = pymongo.MongoClient(db_host)
     db = client[db_name]
     coll = db[collection]
     num_exists = coll.count_documents({attr : {"$exists": True}})
-    if num_exists == 0:
+    if num_exists is None:#== 0:
         return False
     else:
         return True

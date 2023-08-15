@@ -1,3 +1,13 @@
+"""
+Adding postgres to the script
+
+Notes:
+    Postgres install on local machine explicitly. Follow icloud cheatsheet
+    Postgres access via python through package psycopg2
+
+    Accessing postgres through a docker
+Author: Samia Mohinta
+"""
 from __future__ import print_function
 from gunpowder import *
 from gunpowder.tensorflow import *
@@ -7,6 +17,7 @@ import numpy as np
 import os
 import sys
 import pymongo
+import psycopg2
 from micron.gp import WriteCandidates
 
 
@@ -41,18 +52,9 @@ def predict(
     chunk_request.add(raw, input_size)
     chunk_request.add(soft_mask, output_size)
     chunk_request.add(reduced_maxima, output_size)
-    # added else if to be able to handle input hdfs as well
-    if in_container.endswith(('.hdf', '.h5', '.hdf5')):
-        pipeline = Hdf5Source(
-            in_container,
-            datasets={
-                raw: in_dataset
-            },
-            array_specs={
-                raw: ArraySpec(interpolatable=True),
-            }
-        )
-    elif in_container.endswith('.zarr'):
+
+    if in_container.endswith(('.n5', '.zarr')):
+
         pipeline = ZarrSource(
             in_container,
             datasets={
@@ -62,9 +64,16 @@ def predict(
                 raw: ArraySpec(interpolatable=True),
             }
         )
-    else:
-        print(f"{in_container} is not supported. Has to be zarr or hdf, please!")
-        quit()
+    elif in_container.endswith(('.h5', '.hdf')):
+        pipeline = Hdf5Source(
+            in_container,
+            datasets={
+                raw: in_dataset
+            },
+            array_specs={
+                raw: ArraySpec(interpolatable=True),
+            }
+        )
 
     print("IN", in_container)
 
@@ -82,7 +91,7 @@ def predict(
                             net_config['pred_reduced_maxima']: reduced_maxima
                         },
                         graph='predict_net.meta',
-                        #max_shared_memory=(2 * 1024 * 1024 * 1024),
+                        max_shared_memory=(2 * 1024 * 1024 * 1024),
                         )
     pipeline += IntensityScaleShift(soft_mask, 255, 0)
     print("OUT", out_container)
@@ -110,7 +119,8 @@ def predict(
             db_host,
             db_name,
             run_instruction,
-            b, s, d))
+            b, s, d)
+        )
 
     print("Starting prediction...")
     with build(pipeline):
@@ -124,25 +134,55 @@ def block_done_callback(
         run_instruction,
         block,
         start,
-        duration):
-    print("Recording block-done for %s" % (block,))
+        duration,
+        sql=True):
 
-    client = pymongo.MongoClient(db_host)
-    db = client[db_name]
-    collection = db['blocks_predicted']
+    if sql:
+        # assumption: a database and a table has already been created in the local postgres via psql or pgadmin
+        # Todo - substitute hard-coding with passed arguments
+        print("Recording block-done for %s" % (block,))
 
-    document = dict(run_instruction)
-    document.update({
-        'block_id': block.block_id,
-        'read_roi': (block.read_roi.get_begin(), block.read_roi.get_shape()),
-        'write_roi': (block.write_roi.get_begin(), block.write_roi.get_shape()),
-        'start': start,
-        'duration': duration
-    })
+        client = psycopg2.connect(database="micron_cremi_testdb", user="postgres", password="samia", host='127.0.0.1',
+                                  port="5432")
+        cur = client.cursor()
+        # assume tablename: blocks_predicted
+        cur.execute("SELECT * FROM blocks_predicted")
+        result = cur.fetchall()
 
-    collection.insert_one(document)
+        insert_query = f"INSERT INTO blocks_predicted (block_id, read_roi, write_roi, start, duration)" \
+                       f" VALUES ({block.block_id}," \
+                       f"{(block.read_roi.get_begin(), block.read_roi.get_shape())}," \
+                       f" {(block.write_roi.get_begin(), block.write_roi.get_shape())}," \
+                       f"{start}, {duration})"
+        cur.execute(insert_query)
+        con.commit()
 
-    print("Recorded block-done for %s" % (block,))
+        cur.close()
+        con.close()
+
+        print("Recorded block-done for %s" % (block,))
+
+    else:
+        print("why am i here?")
+
+        print("Recording block-done for %s" % (block,))
+
+        client = pymongo.MongoClient(db_host)
+        db = client[db_name]
+        collection = db['blocks_predicted']
+
+        document = dict(run_instruction)
+        document.update({
+            'block_id': block.block_id,
+            'read_roi': (block.read_roi.get_begin(), block.read_roi.get_shape()),
+            'write_roi': (block.write_roi.get_begin(), block.write_roi.get_shape()),
+            'start': start,
+            'duration': duration
+        })
+
+        collection.insert_one(document)
+
+        print("Recorded block-done for %s" % (block,))
 
 
 if __name__ == "__main__":
@@ -152,4 +192,5 @@ if __name__ == "__main__":
     with open(worker_instruction, 'r') as f:
         worker_instruction = json.load(f)
 
-    predict(**worker_instruction)
+predict(**worker_instruction)
+

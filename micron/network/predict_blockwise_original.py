@@ -1,3 +1,4 @@
+""" daisy version should be 0.3.0 for this to work"""
 import json
 import logging
 import numpy as np
@@ -12,10 +13,9 @@ from shutil import copyfile
 from micron import read_predict_config, read_worker_config, read_data_config
 from subprocess import check_call
 from funlib.run import run, run_singularity
-from funlib.persistence import *
-import subprocess
 
 logger = logging.getLogger(__name__)
+
 
 def predict_blockwise(
         base_dir,
@@ -75,9 +75,7 @@ def predict_blockwise(
 
     # from here on, all values are in world units (unless explicitly mentioned)
     # get ROI of source
-    # source = daisy.open_ds(in_container_spec, in_dataset)
-    # upgrade to funlib.persistence, `open_ds` was previously part of daisy < 1.0
-    source = open_ds(in_container_spec, in_dataset)
+    source = daisy.open_ds(in_container_spec, in_dataset)
     logger.info('Source dataset has shape %s, ROI %s, voxel size %s' % (source.shape, source.roi, source.voxel_size))
 
     # Read network config
@@ -104,18 +102,17 @@ def predict_blockwise(
     logger.info('Preparing output dataset...')
 
     for output_name, val in outputs.items():
-        # out_dims = val['out_dims']
+        out_dims = val['out_dims']
         out_dtype = val['out_dtype']
         out_dataset = 'volumes/%s' % output_name
-        # daisy.prepare_ds, `prepare_ds` was previously part of daisy < 1.0
-        ds = prepare_ds(
+        ds = daisy.prepare_ds(
             out_container,
             out_dataset,
             output_roi,
             source.voxel_size,
             out_dtype,
             write_roi=block_write_roi,
-            # num_channels=out_dims,
+            num_channels=out_dims,
             compressor={'id': 'gzip', 'level': 5}
         )
 
@@ -124,7 +121,6 @@ def predict_blockwise(
     client = pymongo.MongoClient(db_host)
     db = client[db_name]
     if 'blocks_predicted' not in db.list_collection_names():
-        logger.debug('creating an index by creating blocks_predicted collection')
         blocks_predicted = db['blocks_predicted']
         blocks_predicted.create_index(
             [('block_id', pymongo.ASCENDING)],
@@ -132,12 +128,11 @@ def predict_blockwise(
     else:
         blocks_predicted = db['blocks_predicted']
 
-    # process block-wise, from daisy > 1.0, task needs to be defined before passing to run_blockwise
-    task = daisy.Task(
-        task_id='predict',  # task id must be provided
-        total_roi=input_roi,
-        read_roi=block_read_roi,
-        write_roi=block_write_roi,
+    # process block-wise
+    succeeded = daisy.run_blockwise(
+        input_roi,
+        block_read_roi,
+        block_write_roi,
         process_function=lambda: predict_worker(
             train_setup_dir,
             predict_setup_dir,
@@ -162,35 +157,6 @@ def predict_blockwise(
         num_workers=num_block_workers,
         read_write_conflict=False,
         fit='overhang')
-    succeeded = daisy.run_blockwise([task])
-    # succeeded = daisy.run_blockwise(
-    # input_roi,
-    # block_read_roi,
-    # block_write_roi,
-    # process_function=lambda: predict_worker(
-    #     train_setup_dir,
-    #     predict_setup_dir,
-    #     predict_number,
-    #     train_number,
-    #     experiment,
-    #     iteration,
-    #     in_container,
-    #     in_dataset,
-    #     out_container,
-    #     out_dataset,
-    #     db_host,
-    #     db_name,
-    #     queue,
-    #     singularity_container,
-    #     num_cpus,
-    #     num_cache_workers,
-    #     mount_dirs),
-    # check_function=lambda b: check_block(
-    #     blocks_predicted,
-    #     b),
-    # num_workers=num_block_workers,
-    # read_write_conflict=False,
-    # fit='overhang')
 
     if not succeeded:
         raise RuntimeError("Prediction failed for (at least) one block")
@@ -214,7 +180,6 @@ def predict_worker(
         num_cpus,
         num_cache_workers,
         mount_dirs):
-
     predict_block = os.path.join(predict_setup_dir, 'predict_block.py')
 
     run_instruction = {
@@ -235,9 +200,8 @@ def predict_worker(
         'db_name': db_name,
         'run_instruction': run_instruction
     }
-    # from_env() now returns a dict
-    # worker_id = daisy.Context.from_env().worker_id
-    worker_id = daisy.Context.from_env()["worker_id"]
+
+    worker_id = daisy.Context.from_env().worker_id
     worker_dir = os.path.join(predict_setup_dir, "worker_files")
     try:
         os.makedirs(worker_dir)
@@ -263,10 +227,8 @@ def predict_worker(
         logger.warning("Running block **locally**, no queue provided.")
         if singularity_container == "None":
             logger.warning("Running block in current environment, no singularity image provided.")
-            # cmd = [base_command]
-            # modifying bas-command for subprocess run
-            base_command = ["python", "-u", f"{predict_block}", f"{worker_instruction_file}"]
-            cmd = base_command
+            cmd = [base_command]
+            # cmd = base_command
         else:
             cmd = run_singularity(base_command,
                                   singularity_container,
@@ -285,14 +247,13 @@ def predict_worker(
                   execute=False,
                   expand=False)
 
-    # daisy.call(cmd, log_out=log_out, log_err=log_err)
+    daisy.call(cmd, log_out=log_out, log_err=log_err)
     # check_call(cmd, shell=True)
-    subprocess.run(cmd, check=True)
+
     logger.info('Predict worker finished')
 
 
 def check_block(blocks_predicted, block):
-    # count documents has been adapted based on WPattons latest scripts for Mongo:6.0.5 and Mongosh:1.10.2
     # done = blocks_predicted.count_documents({'block_id': block.block_id}) >= 1
     done = len(list(blocks_predicted.find({"block_id": block.block_id}))) >= 1
     return done
