@@ -75,7 +75,8 @@ Generally, it is the zarr.write that is failing downstream due to some mismatch 
 predict_blockwise.py spawns the models and kills it instantly perhaps due to OOM (requires minimum 22GB).
 
 ### Import error
-```from funlib.persistence.graphs import FileGraphProvider, MongoDbGraphProvider
+```
+from funlib.persistence.graphs import FileGraphProvider, MongoDbGraphProvider
   File "/usr/local/lib/python3.8/dist-packages/funlib/persistence/graphs/mongodb_graph_provider.py", line 150, in MongoDbGraphProvider
     attr_filter: Optional[dict[str, Any]] = None,
 TypeError: 'type' object is not subscriptable
