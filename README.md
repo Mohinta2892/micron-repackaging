@@ -69,6 +69,69 @@ training checkpoints will be saved every 1000 iterations.
 
 </details>
 
+<details markdown=1><summary>Predicting microtubule candidates</summary>
+```
+cd micron/micron
+python prepare_prediction.py -d <base_dir> -e <experiment_name> -t <id_of_training_run> -i <checkpoint/iteration> -p <id_of_prediction>
+```
+
+This will create a directory at 
+```
+<base_dir>/<experiment_name>/02_predict/setup_t<id_of_training_run>_<id_of_prediction>
+```
+ with all the
+necessary files to predict a region of interest with an already trained network as specified by the -t and -i flags.
+
+In particular the directory will hold 3 config files that specify parameters for the given predict run:
+
+1. data_config.ini
+    Specifies the paths and region of interests for the prediction run. Offset and size 
+    should be given in world coordinates. An example config for fafb prediction looks like
+    the following:
+    
+```
+[Data]
+in_container = ./fafb.n5
+in_dataset = /volumes/raw/s0
+in_offset = 158000, 121800, 403560
+in_size = 76000, 52000, 64000
+out_container = ./softmask.zarr
+```
+
+2. ```predict_config.ini```
+	Holds paths to necessary scripts and ids as specified. Furthermore it
+    contains information about the database to write the predictions to.
+    The db_host entry should be adjusted to point to the mongodb 
+    instance that was set up earlier. All other settings are fixed 
+    and should not be modified.
+
+
+3. ```worker_config.ini```
+    Holds information about how many workers (and thus GPUs) to use
+    for the prediction. Furthermore a singularity container
+    to run the prediction in can be specified as well as
+    the name of any job queue that might be available on a cluster.
+    If ```None``` is given the prediction will be run locally.
+
+If the necessary adjustments have been made a prediction can be started via
+```
+python predict.py 
+```
+
+Once started the predict script writes microtubule candidates to the specified database and 
+keeps track of which blocks have been predicted. Restarting the prediction will skip already 
+processed blocks. Logs for each worker are written to
+ ``` 
+./daisy_logs/<worker_id>_worker.out
+./daisy_logs/<worker_id>_worker.err
+
+```
+
+The final two steps follow the same exact pattern and each generate one additional config file that should be 
+edited to need.
+</details>
+
+
 ## WIP:
 - [X] Training the UNET to detect the microtubules
 - [X] Prediction with blockwise daisy
