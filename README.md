@@ -70,6 +70,7 @@ training checkpoints will be saved every 1000 iterations.
 </details>
 
 <details markdown=1><summary>Predicting microtubule candidates</summary>
+	
 ```
 cd micron/micron
 python prepare_prediction.py -d <base_dir> -e <experiment_name> -t <id_of_training_run> -i <checkpoint/iteration> -p <id_of_prediction>
