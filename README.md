@@ -125,11 +125,26 @@ processed blocks. Logs for each worker are written to
  ``` 
 ./daisy_logs/<worker_id>_worker.out
 ./daisy_logs/<worker_id>_worker.err
-
 ```
-
+Worker.json gets created under
+```
+./worker_files/<worker_id>_worker_instruction.json
+```
 The final two steps follow the same exact pattern and each generate one additional config file that should be 
 edited to need.
+
+</details>
+
+<details markdown=1><summary>Constructing the microtubule graph</summary>
+
+```
+cd micron/micron
+python prepare_graph.py -d <base_dir> -e <experiment_name> -t <id_of_training_run> -p <id_of_prediction> -g <id_of_graph>
+```
+Go to the newly created directory, edit config files to need.
+```
+python graph.py
+```
 </details>
 
 
