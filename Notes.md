@@ -132,8 +132,9 @@ Hence, trying with a clean python 3.9 based conda env `ilp`
 2. `pip install ilpy==0.3.1`
 3. `pip install gunpowder==1.3.0`
 4. `pip install daisy==1.0 funlib.math==0.1 tornado==6.3.3`
-5. `pip install dnspython==2.4.2 funlib.persistence==0.1.0 pymongo==4.4.1` (numcodecs will be numcodecs>=0.10.0)
+5. `pip install dnspython==2.4.2 funlib.persistence==0.1.0 pymongo==4.4.1` (numcodecs>=0.10.0)
 6. `pip install zarr==2.16.1`
+
 
 
 
