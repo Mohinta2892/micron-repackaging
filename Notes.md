@@ -8,12 +8,12 @@ Might want to forego the -e for the git-based software because pip will install 
 
 # Error encounters
 If funlib.learn.tensorflow does not install due to:
-        3 | #include <boost/pending/disjoint_sets.hpp>
+```        3 | #include <boost/pending/disjoint_sets.hpp>
           |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     compilation terminated.
     error: command 'gcc' failed with exit status 1
     [end of output]
-
+```
 It maybe because libboost library is missing in your linux machine. Install it.
 sudo apt install libboost-dev
 
@@ -88,6 +88,54 @@ add the below `from` at the beginning of script:
 /usr/local/lib/python3.8/dist-packages/funlib/persistence/graphs/mongodb_graph_provider.py
 from __future__ import annotations
 ```
+
+#### Pylp to Ilpy move
+Pylp works only with python 3.6 and uses daisy 0.3 and gunpowder 1.2.2. Daisy and gunpowder cannot be upgraded to latest ones with python 3.6.
+
+Steps:
+1. Clone `mock_micron` conda env to `micron_ilpy`
+2. Update python 3.8
+```
+The following packages are causing the inconsistency:
+
+  - defaults/linux-64::python==3.6.13=h12debd9_1
+  - conda-forge/linux-64::python_abi==3.6=2_cp36m
+  - conda-forge/linux-64::certifi==2016.9.26=py36_0
+  - conda-forge/linux-64::pip==20.0.2=py36_1
+  - conda-forge/noarch::wheel==0.36.2=pyhd3deb0d_0
+  - funkey/linux-64::pylp==0.2=py36h2bc3f7f_2
+```
+This fails due to multiple inconsistencies, some of which are due linux and gurobi errors:
+
+```
+wheelThe following specifications were found to be incompatible with your system:
+
+  - feature:/linux-64::__glibc==2.35=0
+  - feature:|@/linux-64::__glibc==2.35=0
+  - conda-forge/linux-64::libffi==3.3=h58526e2_2 -> libgcc-ng[version='>=7.5.0'] -> __glibc[version='>=2.17']
+  - conda-forge/linux-64::libgcc==7.2.0=h69d50b8_2 -> libgcc-ng[version='>=7.2.0'] -> __glibc[version='>=2.17']
+  - conda-forge/linux-64::tk==8.6.12=h27826a3_0 -> libgcc-ng[version='>=9.4.0'] -> __glibc[version='>=2.17']
+  - openssl -> libgcc-ng[version='>=10.3.0'] -> __glibc[version='>=2.17']
+  - pylp -> libgcc-ng[version='>=11.2.0'] -> __glibc[version='>=2.17']
+  - python=3.8 -> libgcc-ng[version='>=10.3.0'] -> __glibc[version='>=2.17']
+
+Your installed version is: 2.35
+
+Package gurobi conflicts for:
+funkey|funkey/linux-64::gurobi==8.0.1=2
+pylp -> gurobi
+funkey/linux-64::gurobi==8.0.1=2
+```
+
+Hence, trying with a clean python 3.9 based conda env `ilp`
+1. conda create -n ilp python=3.9 (do not use latest pythons >10.0 yet, since can face unforeseen issues given the project.toml's may not be up to date)
+2. `pip install ilpy==0.3.1`
+3. `pip install gunpowder==1.3.0`
+4. `pip install daisy==1.0 funlib.math==0.1 tornado==6.3.3`
+5. `pip install dnspython==2.4.2 funlib.persistence==0.1.0 pymongo==4.4.1` (numcodecs will be numcodecs>=0.10.0)
+6. `pip install zarr==2.16.1`
+
+
 
 # Library for automatic tracking of microtubules in large scale EM datasets
 ![](calyx.gif)
