@@ -134,6 +134,7 @@ Hence, trying with a clean python 3.9 based conda env `ilp`
 4. `pip install daisy==1.0 funlib.math==0.1 tornado==6.3.3`
 5. `pip install dnspython==2.4.2 funlib.persistence==0.1.0 pymongo==4.4.1` (numcodecs>=0.10.0)
 6. `pip install zarr==2.16.1`
+7. `pip install --upgrade tensorflow==2.11.0` (2.13.0 needs cuda 12.0 driver and fails compatibility tests for now)
 
 
 
